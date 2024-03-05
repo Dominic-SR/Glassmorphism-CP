@@ -20,24 +20,28 @@ const Login = () =>{
     const {handleChange, handleSubmit} = useForm({validate,values,setValues,errors,setErrors,setFormValidation});
 
     useEffect(()=>{ 
+        console.log("=====>",formValidation && (Object.keys(errors).length === 0));
         if(formValidation && (Object.keys(errors).length === 0)){
             let payload = {
                 "user_email":values.email,
                 "user_password":values.password,
                }
-               
+               console.log("bbbbbbb");
+               toast.success("Login successfully",{onClose:()=>{ 
+                navigate('/home')
+            }, autoClose:1000, progressClassName:"toast-success"}   )
                //LOGIN API CALLING
-                AxiosInstance().post(`/user/login`,payload).then((res)=>{
-                if(res?.status === 200 && res.data.status){
-                    toast.success(res?.data?.message, {onClose:()=>{ 
-                        localStorage.setItem('auth',JSON.stringify(res?.data?.token))
-                        localStorage.setItem('userData',JSON.stringify(res?.data?.data))
-                        navigate('/home')
-                    }, autoClose:1000, progressClassName:"toast-success"}   )
-                }else{
-                    toast.error(res?.data?.message,{progressClassName:"toast-error"})
-                }
-                }).catch((er) => er);
+                // AxiosInstance().post(`/user/login`,payload).then((res)=>{
+                // if(res?.status === 200 && res.data.status){
+                //     toast.success(res?.data?.message, {onClose:()=>{ 
+                //         localStorage.setItem('auth',JSON.stringify(res?.data?.token))
+                //         localStorage.setItem('userData',JSON.stringify(res?.data?.data))
+                //         navigate('/home')
+                //     }, autoClose:1000, progressClassName:"toast-success"}   )
+                // }else{
+                //     toast.error(res?.data?.message,{progressClassName:"toast-error"})
+                // }
+                // }).catch((er) => er);
 
             setFormValidation(false)
             }else{
